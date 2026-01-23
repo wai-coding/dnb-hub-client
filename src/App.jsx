@@ -1,11 +1,32 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import ProfilePage from "./pages/ProfilePage";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
     <>
-      <routes>
-        
-      </routes>
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path="/" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/profile"
+            element={
+              // <ProtectedRoute>
+              <ProfilePage />
+              // </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Footer />
     </>
   );
 }
