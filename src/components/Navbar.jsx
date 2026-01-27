@@ -9,6 +9,11 @@ const Navbar = () => {
     <nav>
       <img src={logo} alt="logo" />
       <h2>DNB Hub</h2>
+      <section>
+        <NavLink to="/events">Events</NavLink>
+        <NavLink to="/artists">Artists</NavLink>
+        <NavLink to="/promoters">Promoters</NavLink>
+      </section>
       {isLoggedIn ? (
         <button onClick={handleLogout}>Logout</button>
       ) : (

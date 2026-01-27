@@ -5,38 +5,255 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
 .card {
   padding: 2em;
 }
 
-.read-the-docs {
+.error {
+  color: #ff4444;
+  font-weight: bold;
+}
+
+.profile-picture {
+  max-width: 200px;
+  border-radius: 50%;
+}
+
+.detail-image {
+  max-width: 300px;
+}
+
+.list-item {
+  margin-bottom: 1rem;
+}
+
+.checkbox-label {
+  display: block;
+}
+
+.homepage {
+  text-align: center;
+}
+
+.hero {
+  padding: 3rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
   color: #888;
+  max-width: 600px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.hero-button {
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+}
+
+.latest-events {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.section-description {
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.event-card {
+  padding: 1.5rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.event-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.event-date {
+  color: #646cff;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.event-location {
+  color: #888;
+  margin-bottom: 0.3rem;
+}
+
+.event-promoter {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.explore-section {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.explore-card {
+  display: block;
+  padding: 1.5rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s;
+}
+
+.explore-card:hover {
+  border-color: #646cff;
+}
+
+.explore-card h3 {
+  margin-bottom: 0.5rem;
+  color: #646cff;
+}
+
+.explore-card p {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.cta-section {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.cta-section h2 {
+  margin-bottom: 0.5rem;
+}
+
+.cta-section p {
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.cta-button {
+  background-color: #646cff;
+}
+
+.cta-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .events-grid,
+  .explore-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-links {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 2rem 1rem;
+}
+
+.not-found-card {
+  max-width: 500px;
+  padding: 2.5rem;
+  border: 1px solid #333;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.not-found-emoji {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.not-found-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.not-found-code {
+  font-size: 1.3rem;
+  color: #646cff;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.not-found-message {
+  color: #888;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.not-found-path {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.not-found-path code {
+  background-color: #1a1a1a;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: #ff6b6b;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .not-found-title {
+    font-size: 1.8rem;
+  }
+
+  .not-found-code {
+    font-size: 1.1rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    align-items: center;
+  }
 }
