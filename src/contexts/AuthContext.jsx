@@ -38,6 +38,8 @@ const AuthWrapper = ({ children }) => {
   }
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    setCurrentUser(null);
+    setIsLoggedIn(false);
     nav("/login");
   };
 
