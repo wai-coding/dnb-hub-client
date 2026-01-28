@@ -14,7 +14,7 @@ const EditProfilePage = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Prefill form with current user data
+  // Prefill form on mount
   useEffect(() => {
     if (currentUser) {
       setUsername(currentUser.username || "");
@@ -27,7 +27,6 @@ const EditProfilePage = () => {
     e.preventDefault();
     setError("");
 
-    // Validate username
     if (!username.trim()) {
       setError("Username cannot be empty.");
       return;
@@ -47,10 +46,7 @@ const EditProfilePage = () => {
         }
       );
 
-      // Update currentUser in AuthContext
       updateCurrentUser(data.user);
-
-      // Navigate back to profile
       navigate("/profile");
     } catch (err) {
       console.log(err);
@@ -60,13 +56,12 @@ const EditProfilePage = () => {
     }
   };
 
-  // Get preview image source
+  // Preview falls back to placeholder
   const previewSrc =
     profilePicture && profilePicture.trim() !== ""
       ? profilePicture
       : placeholderImg;
 
-  // If no user, show friendly message
   if (!currentUser) {
     return (
       <div className="page edit-profile-page">
@@ -85,7 +80,6 @@ const EditProfilePage = () => {
       <div className="edit-profile-card">
         <h1 className="edit-profile-title">Edit Profile</h1>
 
-        {/* Avatar Preview */}
         <div className="edit-profile-avatar-wrapper">
           <img
             src={previewSrc}
@@ -99,7 +93,6 @@ const EditProfilePage = () => {
         </div>
 
         <form className="edit-profile-form" onSubmit={handleSubmit}>
-          {/* Username */}
           <div className="form-row">
             <label htmlFor="username">Username</label>
             <input
@@ -111,7 +104,6 @@ const EditProfilePage = () => {
             />
           </div>
 
-          {/* Email (read-only) */}
           <div className="form-row">
             <label htmlFor="email">Email</label>
             <input
@@ -124,7 +116,6 @@ const EditProfilePage = () => {
             <span className="form-hint">Email cannot be changed</span>
           </div>
 
-          {/* Profile Picture URL */}
           <div className="form-row">
             <label htmlFor="profilePicture">Profile Picture URL</label>
             <input
@@ -136,10 +127,8 @@ const EditProfilePage = () => {
             />
           </div>
 
-          {/* Error Message */}
           {error && <p className="error">{error}</p>}
 
-          {/* Actions */}
           <div className="edit-profile-actions">
             <Link to="/profile" className="btn btn-secondary">
               Cancel

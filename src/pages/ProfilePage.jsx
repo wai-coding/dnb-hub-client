@@ -6,7 +6,7 @@ import placeholderImg from "../assets/placeholder.png";
 const ProfilePage = () => {
   const { currentUser } = useContext(AuthContext);
 
-  // Get avatar source with fallback
+  // Fallback to placeholder if no profile pic
   const avatarSrc =
     currentUser?.profilePicture && currentUser.profilePicture.trim() !== ""
       ? currentUser.profilePicture
@@ -19,7 +19,6 @@ const ProfilePage = () => {
           <p className="profile-empty">No user information available.</p>
         ) : (
           <>
-            {/* Header Section */}
             <div className="profile-header">
               <img
                 src={avatarSrc}
@@ -36,7 +35,6 @@ const ProfilePage = () => {
               )}
             </div>
 
-            {/* Info Section */}
             <div className="profile-info">
               {currentUser.username && (
                 <div className="profile-row">
@@ -52,7 +50,6 @@ const ProfilePage = () => {
               )}
             </div>
 
-            {/* Actions Section */}
             <div className="profile-actions">
               <Link to="/profile/edit" className="btn btn-primary">
                 Edit Profile

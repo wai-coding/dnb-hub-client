@@ -37,7 +37,7 @@ const AuthWrapper = ({ children }) => {
     }
   }
 
-  // Update currentUser after profile edit
+  // Sync user state after profile edit
   const updateCurrentUser = (updatedUser) => {
     setCurrentUser(updatedUser);
   };
