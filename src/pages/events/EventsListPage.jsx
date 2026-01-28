@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import placeholderImg from "../../assets/placeholder.png";
 
 const API_URL = "http://localhost:5005";
 
@@ -25,32 +26,47 @@ const EventsListPage = () => {
       });
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="loading">Loading...</p>;
   if (error) return <p className="error">{error}</p>;
 
   return (
-    <div>
-      <h1>Events</h1>
-      {isLoggedIn && (
-        <Link to="/events/new">
-          <button>Create Event</button>
-        </Link>
-      )}
-      <div className="card">
-        {eventsList.length === 0 ? (
-          <p>No events found</p>
-        ) : (
-          eventsList.map((event) => (
-            <div key={event._id} className="list-item">
-              <h3>{event.eventname}</h3>
-              <p>{event.location}</p>
-              <Link to={`/events/${event._id}`}>
-                <button>Details</button>
-              </Link>
-            </div>
-          ))
+    <div className="page">
+      <div className="page-header">
+        <h1>Events</h1>
+        {isLoggedIn && (
+          <div className="page-actions">
+            <Link to="/events/new">
+              <button className="btn-primary">Create Event</button>
+            </Link>
+          </div>
         )}
       </div>
+      {eventsList.length === 0 ? (
+        <p>No events found</p>
+      ) : (
+        <div className="grid">
+          {eventsList.map((event) => (
+            <div key={event._id} className="card">
+              <div className="card-media">
+                <img
+                  src={event.image && event.image.trim() !== "" ? event.image : placeholderImg}
+                  alt={event.eventname || "Event"}
+                  onError={(e) => { e.currentTarget.src = placeholderImg; }}
+                />
+              </div>
+              <div className="card-body">
+                <h3 className="card-title">{event.eventname}</h3>
+                <p className="card-meta">{event.location}</p>
+                <div className="card-actions">
+                  <Link to={`/events/${event._id}`}>
+                    <button>View Details</button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

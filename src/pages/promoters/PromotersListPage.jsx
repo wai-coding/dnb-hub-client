@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import placeholderImg from "../../assets/placeholder.png";
 
 const API_URL = "http://localhost:5005";
 
@@ -25,31 +26,46 @@ const PromotersListPage = () => {
       });
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="loading">Loading...</p>;
   if (error) return <p className="error">{error}</p>;
 
   return (
-    <div>
-      <h1>Promoters</h1>
-      {isLoggedIn && (
-        <Link to="/promoters/new">
-          <button>Create Promoter</button>
-        </Link>
-      )}
-      <div className="card">
-        {promotersList.length === 0 ? (
-          <p>No promoters found</p>
-        ) : (
-          promotersList.map((promoter) => (
-            <div key={promoter._id} className="list-item">
-              <h3>{promoter.name}</h3>
-              <Link to={`/promoters/${promoter._id}`}>
-                <button>Details</button>
-              </Link>
-            </div>
-          ))
+    <div className="page">
+      <div className="page-header">
+        <h1>Promoters</h1>
+        {isLoggedIn && (
+          <div className="page-actions">
+            <Link to="/promoters/new">
+              <button className="btn-primary">Create Promoter</button>
+            </Link>
+          </div>
         )}
       </div>
+      {promotersList.length === 0 ? (
+        <p>No promoters found</p>
+      ) : (
+        <div className="grid">
+          {promotersList.map((promoter) => (
+            <div key={promoter._id} className="card">
+              <div className="card-media">
+                <img
+                  src={promoter.image && promoter.image.trim() !== "" ? promoter.image : placeholderImg}
+                  alt={promoter.name || "Promoter"}
+                  onError={(e) => { e.currentTarget.src = placeholderImg; }}
+                />
+              </div>
+              <div className="card-body">
+                <h3 className="card-title">{promoter.name}</h3>
+                <div className="card-actions">
+                  <Link to={`/promoters/${promoter._id}`}>
+                    <button>View Details</button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

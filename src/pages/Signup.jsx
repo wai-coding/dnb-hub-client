@@ -24,44 +24,50 @@ const Signup = () => {
     }
   };
   return (
-    <div>
+    <div className="auth-card">
       <h3>Sign up with us!</h3>
-      <form onSubmit={handleSignup}>
-        <label>
-          Username:
+      <form onSubmit={handleSignup} className="form">
+        <div className="form-row">
+          <label>Username</label>
           <input
             type="text"
             value={username}
+            placeholder="Choose a username"
             onChange={(e) => {
               setUsername(e.target.value);
             }}
           />
-        </label>
-        <label>
-          Email:
+        </div>
+        <div className="form-row">
+          <label>Email</label>
           <input
             type="email"
             value={email}
+            placeholder="Enter your email"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
-        </label>
-        <label>
-          Password:
+        </div>
+        <div className="form-row">
+          <label>Password</label>
           <input
             type="password"
             value={password}
+            placeholder="Create a password"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           />
-        </label>
-
+        </div>
         {error && <p className="error">{error}</p>}
-        <button>Signup</button>
-        <p>Already a member? </p>
-        <Link to="/login">Login</Link>
+        <div className="form-actions">
+          <button className="btn-primary">Sign Up</button>
+        </div>
+        <div className="form-footer">
+          <p>Already a member?</p>
+          <Link to="/login">Login</Link>
+        </div>
       </form>
     </div>
   );

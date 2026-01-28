@@ -25,8 +25,12 @@ const ArtistCreatePage = () => {
     e.preventDefault();
     setError("");
     const token = localStorage.getItem("authToken");
+    const payload = { ...formData };
+    if (!payload.image || payload.image.trim() === "") {
+      delete payload.image;
+    }
     axios
-      .post(`${API_URL}/artists/create`, formData, {
+      .post(`${API_URL}/artists/create`, payload, {
         headers: { authorization: `Bearer ${token}` },
       })
       .then(() => {
@@ -39,75 +43,84 @@ const ArtistCreatePage = () => {
   };
 
   return (
-    <div>
+    <div className="form-card">
       <h1>Create Artist</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-row">
+          <label>Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
+            placeholder="Artist name"
             required
           />
-        </label>
-        <label>
-          Bio:
+        </div>
+        <div className="form-row">
+          <label>Bio</label>
           <textarea
             name="bio"
             value={formData.bio}
             onChange={handleChange}
+            placeholder="Tell us about the artist"
             required
           />
-        </label>
-        <label>
-          Image URL:
+        </div>
+        <div className="form-row">
+          <label>Image URL</label>
           <input
             type="text"
             name="image"
             value={formData.image}
             onChange={handleChange}
+            placeholder="https://example.com/image.jpg"
           />
-        </label>
-        <label>
-          Bookings:
+        </div>
+        <div className="form-row">
+          <label>Bookings</label>
           <input
             type="text"
             name="bookings"
             value={formData.bookings}
             onChange={handleChange}
+            placeholder="Booking contact"
           />
-        </label>
-        <label>
-          Social Media:
+        </div>
+        <div className="form-row">
+          <label>Social Media</label>
           <input
             type="text"
             name="socialmedia"
             value={formData.socialmedia}
             onChange={handleChange}
+            placeholder="Social media links"
           />
-        </label>
-        <label>
-          Promo Mix:
+        </div>
+        <div className="form-row">
+          <label>Promo Mix</label>
           <input
             type="text"
             name="promomix"
             value={formData.promomix}
             onChange={handleChange}
+            placeholder="Link to promo mix"
           />
-        </label>
-        <label>
-          Promo Song:
+        </div>
+        <div className="form-row">
+          <label>Promo Song</label>
           <input
             type="text"
             name="promosong"
             value={formData.promosong}
             onChange={handleChange}
+            placeholder="Link to promo song"
           />
-        </label>
+        </div>
         {error && <p className="error">{error}</p>}
-        <button type="submit">Create</button>
+        <div className="form-actions">
+          <button type="submit" className="btn-primary">Create Artist</button>
+        </div>
       </form>
     </div>
   );

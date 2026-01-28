@@ -74,6 +74,9 @@ const EventEditPage = () => {
       promoter: formData.promoter === "" ? null : formData.promoter,
       artists: selectedArtists,
     };
+    if (!dataToSend.image || dataToSend.image.trim() === "") {
+      delete dataToSend.image;
+    }
     axios
       .put(`${API_URL}/events/${id}`, dataToSend, {
         headers: { authorization: `Bearer ${token}` },
@@ -87,33 +90,35 @@ const EventEditPage = () => {
       });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="loading">Loading...</p>;
 
   return (
-    <div>
+    <div className="form-card">
       <h1>Edit Event</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Event Name:
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-row">
+          <label>Event Name</label>
           <input
             type="text"
             name="eventname"
             value={formData.eventname}
             onChange={handleChange}
+            placeholder="Enter event name"
             required
           />
-        </label>
-        <label>
-          Description:
+        </div>
+        <div className="form-row">
+          <label>Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
+            placeholder="Describe the event"
             required
           />
-        </label>
-        <label>
-          Date:
+        </div>
+        <div className="form-row">
+          <label>Date</label>
           <input
             type="date"
             name="date"
@@ -121,48 +126,51 @@ const EventEditPage = () => {
             onChange={handleChange}
             required
           />
-        </label>
-        <label>
-          Location:
+        </div>
+        <div className="form-row">
+          <label>Location</label>
           <input
             type="text"
             name="location"
             value={formData.location}
             onChange={handleChange}
+            placeholder="Event location"
             required
           />
-        </label>
-        <label>
-          Price:
+        </div>
+        <div className="form-row">
+          <label>Price</label>
           <input
             type="text"
             name="price"
             value={formData.price}
             onChange={handleChange}
+            placeholder="Ticket price"
             required
           />
-        </label>
-        <label>
-          Image URL:
+        </div>
+        <div className="form-row">
+          <label>Image URL</label>
           <input
             type="text"
             name="image"
             value={formData.image}
             onChange={handleChange}
+            placeholder="https://example.com/image.jpg"
           />
-        </label>
-        <label>
-          Promoter:
+        </div>
+        <div className="form-row">
+          <label>Promoter</label>
           <select name="promoter" value={formData.promoter} onChange={handleChange}>
             <option value="">No Promoter</option>
             {promotersList.map((p) => (
               <option key={p._id} value={p._id}>{p.name}</option>
             ))}
           </select>
-        </label>
-        <label>
-          Artists:
-          <div>
+        </div>
+        <div className="form-row">
+          <label>Artists</label>
+          <div className="form-checkbox-group">
             {artistsList.map((a) => (
               <label key={a._id} className="checkbox-label">
                 <input
@@ -175,27 +183,31 @@ const EventEditPage = () => {
               </label>
             ))}
           </div>
-        </label>
-        <label>
-          Social Media:
+        </div>
+        <div className="form-row">
+          <label>Social Media</label>
           <input
             type="text"
             name="socialmedia"
             value={formData.socialmedia}
             onChange={handleChange}
+            placeholder="Social media links"
           />
-        </label>
-        <label>
-          Contacts:
+        </div>
+        <div className="form-row">
+          <label>Contacts</label>
           <input
             type="text"
             name="contacts"
             value={formData.contacts}
             onChange={handleChange}
+            placeholder="Contact information"
           />
-        </label>
+        </div>
         {error && <p className="error">{error}</p>}
-        <button type="submit">Update</button>
+        <div className="form-actions">
+          <button type="submit" className="btn-primary">Update Event</button>
+        </div>
       </form>
     </div>
   );

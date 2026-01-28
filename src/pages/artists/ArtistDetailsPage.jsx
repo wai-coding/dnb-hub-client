@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import placeholderImg from "../../assets/placeholder.png";
 
 const API_URL = "http://localhost:5005";
 
@@ -42,38 +43,67 @@ const ArtistDetailsPage = () => {
       });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="loading">Loading...</p>;
   if (error) return <p className="error">{error}</p>;
   if (!artist) return <p>Artist not found</p>;
 
   return (
-    <div>
-      <h1>{artist.name}</h1>
-      {artist.image && (
-        <img
-          src={artist.image}
-          alt={artist.name}
-          className="detail-image"
-        />
-      )}
-      <div className="card">
-        <p><strong>Bio:</strong> {artist.bio}</p>
-        {artist.bookings && <p><strong>Bookings:</strong> {artist.bookings}</p>}
-        {artist.socialmedia && <p><strong>Social Media:</strong> {artist.socialmedia}</p>}
-        {artist.promomix && <p><strong>Promo Mix:</strong> {artist.promomix}</p>}
-        {artist.promosong && <p><strong>Promo Song:</strong> {artist.promosong}</p>}
-      </div>
-      {isLoggedIn && (
-        <div>
-          <Link to={`/artists/${id}/edit`}>
-            <button>Edit</button>
-          </Link>
-          <button onClick={handleDelete}>Delete</button>
+    <div className="page">
+      <div className="details-card">
+        <div className="details-card-media">
+          <img
+            src={artist.image && artist.image.trim() !== "" ? artist.image : placeholderImg}
+            alt={artist.name || "Artist"}
+            onError={(e) => { e.currentTarget.src = placeholderImg; }}
+          />
         </div>
-      )}
-      <Link to="/artists">
-        <button>Back to Artists</button>
-      </Link>
+        <div className="details-card-content">
+          <h1 className="details-card-title">{artist.name}</h1>
+          <div className="details-card-info">
+            <div className="details-card-row">
+              <span className="details-card-label">Bio</span>
+              <span className="details-card-value">{artist.bio}</span>
+            </div>
+            {artist.bookings && (
+              <div className="details-card-row">
+                <span className="details-card-label">Bookings</span>
+                <span className="details-card-value">{artist.bookings}</span>
+              </div>
+            )}
+            {artist.socialmedia && (
+              <div className="details-card-row">
+                <span className="details-card-label">Social Media</span>
+                <span className="details-card-value">{artist.socialmedia}</span>
+              </div>
+            )}
+            {artist.promomix && (
+              <div className="details-card-row">
+                <span className="details-card-label">Promo Mix</span>
+                <span className="details-card-value">{artist.promomix}</span>
+              </div>
+            )}
+            {artist.promosong && (
+              <div className="details-card-row">
+                <span className="details-card-label">Promo Song</span>
+                <span className="details-card-value">{artist.promosong}</span>
+              </div>
+            )}
+          </div>
+          <div className="details-card-actions">
+            <Link to="/artists">
+              <button>Back to Artists</button>
+            </Link>
+            {isLoggedIn && (
+              <>
+                <Link to={`/artists/${id}/edit`}>
+                  <button className="btn-secondary">Edit</button>
+                </Link>
+                <button className="btn-danger" onClick={handleDelete}>Delete</button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

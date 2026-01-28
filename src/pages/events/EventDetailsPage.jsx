@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import placeholderImg from "../../assets/placeholder.png";
 
 const API_URL = "http://localhost:5005";
 
@@ -42,41 +43,75 @@ const EventDetailsPage = () => {
       });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="loading">Loading...</p>;
   if (error) return <p className="error">{error}</p>;
   if (!event) return <p>Event not found</p>;
 
   return (
-    <div>
-      <h1>{event.eventname}</h1>
-      {event.image && (
-        <img
-          src={event.image}
-          alt={event.eventname}
-          className="detail-image"
-        />
-      )}
-      <div className="card">
-        <p><strong>Description:</strong> {event.description}</p>
-        <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
-        <p><strong>Location:</strong> {event.location}</p>
-        <p><strong>Price:</strong> {event.price}</p>
-        <p><strong>Promoter:</strong> {event.promoter ? event.promoter.name : "No promoter"}</p>
-        <p><strong>Artists:</strong> {event.artists && event.artists.length > 0 ? event.artists.map((a) => a.name).join(", ") : "No artists"}</p>
-        {event.socialmedia && <p><strong>Social Media:</strong> {event.socialmedia}</p>}
-        {event.contacts && <p><strong>Contacts:</strong> {event.contacts}</p>}
-      </div>
-      {isLoggedIn && (
-        <div>
-          <Link to={`/events/${id}/edit`}>
-            <button>Edit</button>
-          </Link>
-          <button onClick={handleDelete}>Delete</button>
+    <div className="page">
+      <div className="details-card">
+        <div className="details-card-media">
+          <img
+            src={event.image && event.image.trim() !== "" ? event.image : placeholderImg}
+            alt={event.eventname || "Event"}
+            onError={(e) => { e.currentTarget.src = placeholderImg; }}
+          />
         </div>
-      )}
-      <Link to="/events">
-        <button>Back to Events</button>
-      </Link>
+        <div className="details-card-content">
+          <h1 className="details-card-title">{event.eventname}</h1>
+          <div className="details-card-info">
+            <div className="details-card-row">
+              <span className="details-card-label">Description</span>
+              <span className="details-card-value">{event.description}</span>
+            </div>
+            <div className="details-card-row">
+              <span className="details-card-label">Date</span>
+              <span className="details-card-value">{new Date(event.date).toLocaleDateString()}</span>
+            </div>
+            <div className="details-card-row">
+              <span className="details-card-label">Location</span>
+              <span className="details-card-value">{event.location}</span>
+            </div>
+            <div className="details-card-row">
+              <span className="details-card-label">Price</span>
+              <span className="details-card-value">{event.price}</span>
+            </div>
+            <div className="details-card-row">
+              <span className="details-card-label">Promoter</span>
+              <span className="details-card-value">{event.promoter ? event.promoter.name : "No promoter"}</span>
+            </div>
+            <div className="details-card-row">
+              <span className="details-card-label">Artists</span>
+              <span className="details-card-value">{event.artists && event.artists.length > 0 ? event.artists.map((a) => a.name).join(", ") : "No artists"}</span>
+            </div>
+            {event.socialmedia && (
+              <div className="details-card-row">
+                <span className="details-card-label">Social Media</span>
+                <span className="details-card-value">{event.socialmedia}</span>
+              </div>
+            )}
+            {event.contacts && (
+              <div className="details-card-row">
+                <span className="details-card-label">Contacts</span>
+                <span className="details-card-value">{event.contacts}</span>
+              </div>
+            )}
+          </div>
+          <div className="details-card-actions">
+            <Link to="/events">
+              <button>Back to Events</button>
+            </Link>
+            {isLoggedIn && (
+              <>
+                <Link to={`/events/${id}/edit`}>
+                  <button className="btn-secondary">Edit</button>
+                </Link>
+                <button className="btn-danger" onClick={handleDelete}>Delete</button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

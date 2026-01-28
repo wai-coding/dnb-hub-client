@@ -48,8 +48,12 @@ const PromoterEditPage = () => {
     e.preventDefault();
     setError("");
     const token = localStorage.getItem("authToken");
+    const payload = { ...formData };
+    if (!payload.image || payload.image.trim() === "") {
+      delete payload.image;
+    }
     axios
-      .put(`${API_URL}/promoters/${id}`, formData, {
+      .put(`${API_URL}/promoters/${id}`, payload, {
         headers: { authorization: `Bearer ${token}` },
       })
       .then(() => {
@@ -61,69 +65,77 @@ const PromoterEditPage = () => {
       });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="loading">Loading...</p>;
 
   return (
-    <div>
+    <div className="form-card">
       <h1>Edit Promoter</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-row">
+          <label>Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
+            placeholder="Promoter name"
             required
           />
-        </label>
-        <label>
-          Bio:
+        </div>
+        <div className="form-row">
+          <label>Bio</label>
           <textarea
             name="bio"
             value={formData.bio}
             onChange={handleChange}
+            placeholder="Tell us about the promoter"
             required
           />
-        </label>
-        <label>
-          Image URL:
+        </div>
+        <div className="form-row">
+          <label>Image URL</label>
           <input
             type="text"
             name="image"
             value={formData.image}
             onChange={handleChange}
+            placeholder="https://example.com/image.jpg"
           />
-        </label>
-        <label>
-          Social Media:
+        </div>
+        <div className="form-row">
+          <label>Social Media</label>
           <input
             type="text"
             name="socialmedia"
             value={formData.socialmedia}
             onChange={handleChange}
+            placeholder="Social media links"
           />
-        </label>
-        <label>
-          Contacts:
+        </div>
+        <div className="form-row">
+          <label>Contacts</label>
           <input
             type="text"
             name="contacts"
             value={formData.contacts}
             onChange={handleChange}
+            placeholder="Contact information"
           />
-        </label>
-        <label>
-          Tickets:
+        </div>
+        <div className="form-row">
+          <label>Tickets</label>
           <input
             type="text"
             name="tickets"
             value={formData.tickets}
             onChange={handleChange}
+            placeholder="Ticket links"
           />
-        </label>
+        </div>
         {error && <p className="error">{error}</p>}
-        <button type="submit">Update</button>
+        <div className="form-actions">
+          <button type="submit" className="btn-primary">Update Promoter</button>
+        </div>
       </form>
     </div>
   );

@@ -36,6 +36,12 @@ const AuthWrapper = ({ children }) => {
       setIsLoading(false);
     }
   }
+
+  // Update currentUser after profile edit
+  const updateCurrentUser = (updatedUser) => {
+    setCurrentUser(updatedUser);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     setCurrentUser(null);
@@ -50,6 +56,8 @@ const AuthWrapper = ({ children }) => {
     <AuthContext.Provider
       value={{
         currentUser,
+        setCurrentUser,
+        updateCurrentUser,
         isLoading,
         isLoggedIn,
         authenticateUser,

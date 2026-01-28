@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import placeholderImg from "../assets/placeholder.png";
 
 const API_URL = "http://localhost:5005";
 
@@ -50,6 +51,12 @@ const HomePage = () => {
           <div className="events-grid">
             {latestEvents.map((event) => (
               <div key={event._id} className="event-card">
+                <img
+                  src={event.image && event.image.trim() !== "" ? event.image : placeholderImg}
+                  alt={event.eventname || "Event"}
+                  className="event-card-image"
+                  onError={(e) => { e.currentTarget.src = placeholderImg; }}
+                />
                 <h3>{event.eventname}</h3>
                 <p className="event-date">
                   {new Date(event.date).toLocaleDateString()}
