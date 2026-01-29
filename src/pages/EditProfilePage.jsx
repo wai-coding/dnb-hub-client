@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import placeholderImg from "../assets/placeholder.png";
+import { API_URL } from "../config/config";
 
 const EditProfilePage = () => {
   const { currentUser, updateCurrentUser } = useContext(AuthContext);
@@ -37,13 +38,13 @@ const EditProfilePage = () => {
     try {
       const token = localStorage.getItem("authToken");
       const { data } = await axios.put(
-        "http://localhost:5005/auth/profile",
+        `${API_URL}/auth/profile`,
         { username, profilePicture },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       updateCurrentUser(data.user);

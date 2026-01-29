@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import placeholderImg from "../../assets/placeholder.png";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const EventsListPage = () => {
   const [eventsList, setEventsList] = useState([]);
@@ -49,9 +48,15 @@ const EventsListPage = () => {
             <div key={event._id} className="card">
               <div className="card-media">
                 <img
-                  src={event.image && event.image.trim() !== "" ? event.image : placeholderImg}
+                  src={
+                    event.image && event.image.trim() !== ""
+                      ? event.image
+                      : placeholderImg
+                  }
                   alt={event.eventname || "Event"}
-                  onError={(e) => { e.currentTarget.src = placeholderImg; }}
+                  onError={(e) => {
+                    e.currentTarget.src = placeholderImg;
+                  }}
                 />
               </div>
               <div className="card-body">

@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import placeholderImg from "../../assets/placeholder.png";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const ArtistsListPage = () => {
   const [artistsList, setArtistsList] = useState([]);
@@ -49,9 +48,15 @@ const ArtistsListPage = () => {
             <div key={artist._id} className="card">
               <div className="card-media">
                 <img
-                  src={artist.image && artist.image.trim() !== "" ? artist.image : placeholderImg}
+                  src={
+                    artist.image && artist.image.trim() !== ""
+                      ? artist.image
+                      : placeholderImg
+                  }
                   alt={artist.name || "Artist"}
-                  onError={(e) => { e.currentTarget.src = placeholderImg; }}
+                  onError={(e) => {
+                    e.currentTarget.src = placeholderImg;
+                  }}
                 />
               </div>
               <div className="card-body">

@@ -11,7 +11,8 @@ const NotFound = () => {
         <h1 className="not-found-title">Lost in the rave?</h1>
         <p className="not-found-code">404 - This drop never happened.</p>
         <p className="not-found-message">
-          Looks like you missed the beat. The page you're looking for doesn't exist.
+          Looks like you missed the beat. The page you're looking for doesn't
+          exist.
         </p>
         <p className="not-found-path">
           You tried to access: <code>{location.pathname}</code>

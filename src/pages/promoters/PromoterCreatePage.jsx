@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const PromoterCreatePage = () => {
   const [formData, setFormData] = useState({
@@ -108,7 +107,9 @@ const PromoterCreatePage = () => {
         </div>
         {error && <p className="error">{error}</p>}
         <div className="form-actions">
-          <button type="submit" className="btn-primary">Create Promoter</button>
+          <button type="submit" className="btn-primary">
+            Create Promoter
+          </button>
         </div>
       </form>
     </div>

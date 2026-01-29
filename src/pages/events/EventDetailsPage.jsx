@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import placeholderImg from "../../assets/placeholder.png";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const EventDetailsPage = () => {
   const { id } = useParams();
@@ -52,9 +51,15 @@ const EventDetailsPage = () => {
       <div className="details-card">
         <div className="details-card-media">
           <img
-            src={event.image && event.image.trim() !== "" ? event.image : placeholderImg}
+            src={
+              event.image && event.image.trim() !== ""
+                ? event.image
+                : placeholderImg
+            }
             alt={event.eventname || "Event"}
-            onError={(e) => { e.currentTarget.src = placeholderImg; }}
+            onError={(e) => {
+              e.currentTarget.src = placeholderImg;
+            }}
           />
         </div>
         <div className="details-card-content">
@@ -66,7 +71,9 @@ const EventDetailsPage = () => {
             </div>
             <div className="details-card-row">
               <span className="details-card-label">Date</span>
-              <span className="details-card-value">{new Date(event.date).toLocaleDateString()}</span>
+              <span className="details-card-value">
+                {new Date(event.date).toLocaleDateString()}
+              </span>
             </div>
             <div className="details-card-row">
               <span className="details-card-label">Location</span>
@@ -78,11 +85,17 @@ const EventDetailsPage = () => {
             </div>
             <div className="details-card-row">
               <span className="details-card-label">Promoter</span>
-              <span className="details-card-value">{event.promoter ? event.promoter.name : "No promoter"}</span>
+              <span className="details-card-value">
+                {event.promoter ? event.promoter.name : "No promoter"}
+              </span>
             </div>
             <div className="details-card-row">
               <span className="details-card-label">Artists</span>
-              <span className="details-card-value">{event.artists && event.artists.length > 0 ? event.artists.map((a) => a.name).join(", ") : "No artists"}</span>
+              <span className="details-card-value">
+                {event.artists && event.artists.length > 0
+                  ? event.artists.map((a) => a.name).join(", ")
+                  : "No artists"}
+              </span>
             </div>
             {event.socialmedia && (
               <div className="details-card-row">
@@ -106,7 +119,9 @@ const EventDetailsPage = () => {
                 <Link to={`/events/${id}/edit`}>
                   <button className="btn-secondary">Edit</button>
                 </Link>
-                <button className="btn-danger" onClick={handleDelete}>Delete</button>
+                <button className="btn-danger" onClick={handleDelete}>
+                  Delete
+                </button>
               </>
             )}
           </div>

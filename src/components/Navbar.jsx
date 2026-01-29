@@ -14,10 +14,40 @@ const Navbar = () => {
         <h2 className="navbar-title">DNB Hub</h2>
       </div>
       <section className="navbar-links">
-        <NavLink to="/events" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Events</NavLink>
-        <NavLink to="/artists" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Artists</NavLink>
-        <NavLink to="/promoters" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Promoters</NavLink>
-        {isLoggedIn && <NavLink to="/profile" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Profile</NavLink>}
+        <NavLink
+          to="/events"
+          className={({ isActive }) =>
+            isActive ? "navbar-link active" : "navbar-link"
+          }
+        >
+          Events
+        </NavLink>
+        <NavLink
+          to="/artists"
+          className={({ isActive }) =>
+            isActive ? "navbar-link active" : "navbar-link"
+          }
+        >
+          Artists
+        </NavLink>
+        <NavLink
+          to="/promoters"
+          className={({ isActive }) =>
+            isActive ? "navbar-link active" : "navbar-link"
+          }
+        >
+          Promoters
+        </NavLink>
+        {isLoggedIn && (
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              isActive ? "navbar-link active" : "navbar-link"
+            }
+          >
+            Profile
+          </NavLink>
+        )}
       </section>
       {isLoggedIn ? (
         <section className="navbar-auth">
@@ -25,8 +55,22 @@ const Navbar = () => {
         </section>
       ) : (
         <section className="navbar-auth">
-          <NavLink to="/login" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Login</NavLink>
-          <NavLink to="/signup" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Sign Up</NavLink>
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              isActive ? "navbar-link active" : "navbar-link"
+            }
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to="/signup"
+            className={({ isActive }) =>
+              isActive ? "navbar-link active" : "navbar-link"
+            }
+          >
+            Sign Up
+          </NavLink>
         </section>
       )}
     </nav>

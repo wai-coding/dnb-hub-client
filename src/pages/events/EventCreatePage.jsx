@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const EventCreatePage = () => {
   const [formData, setFormData] = useState({
@@ -23,8 +22,14 @@ const EventCreatePage = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    axios.get(`${API_URL}/promoters`).then((res) => setPromotersList(res.data)).catch((err) => console.log(err));
-    axios.get(`${API_URL}/artists`).then((res) => setArtistsList(res.data)).catch((err) => console.log(err));
+    axios
+      .get(`${API_URL}/promoters`)
+      .then((res) => setPromotersList(res.data))
+      .catch((err) => console.log(err));
+    axios
+      .get(`${API_URL}/artists`)
+      .then((res) => setArtistsList(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const handleChange = (e) => {
@@ -134,10 +139,16 @@ const EventCreatePage = () => {
         </div>
         <div className="form-row">
           <label>Promoter</label>
-          <select name="promoter" value={formData.promoter} onChange={handleChange}>
+          <select
+            name="promoter"
+            value={formData.promoter}
+            onChange={handleChange}
+          >
             <option value="">No Promoter</option>
             {promotersList.map((p) => (
-              <option key={p._id} value={p._id}>{p.name}</option>
+              <option key={p._id} value={p._id}>
+                {p.name}
+              </option>
             ))}
           </select>
         </div>
@@ -179,7 +190,9 @@ const EventCreatePage = () => {
         </div>
         {error && <p className="error">{error}</p>}
         <div className="form-actions">
-          <button type="submit" className="btn-primary">Create Event</button>
+          <button type="submit" className="btn-primary">
+            Create Event
+          </button>
         </div>
       </form>
     </div>

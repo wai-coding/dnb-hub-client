@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import placeholderImg from "../../assets/placeholder.png";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const ArtistDetailsPage = () => {
   const { id } = useParams();
@@ -52,9 +51,15 @@ const ArtistDetailsPage = () => {
       <div className="details-card">
         <div className="details-card-media">
           <img
-            src={artist.image && artist.image.trim() !== "" ? artist.image : placeholderImg}
+            src={
+              artist.image && artist.image.trim() !== ""
+                ? artist.image
+                : placeholderImg
+            }
             alt={artist.name || "Artist"}
-            onError={(e) => { e.currentTarget.src = placeholderImg; }}
+            onError={(e) => {
+              e.currentTarget.src = placeholderImg;
+            }}
           />
         </div>
         <div className="details-card-content">
@@ -98,7 +103,9 @@ const ArtistDetailsPage = () => {
                 <Link to={`/artists/${id}/edit`}>
                   <button className="btn-secondary">Edit</button>
                 </Link>
-                <button className="btn-danger" onClick={handleDelete}>Delete</button>
+                <button className="btn-danger" onClick={handleDelete}>
+                  Delete
+                </button>
               </>
             )}
           </div>

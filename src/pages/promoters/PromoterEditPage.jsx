@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const PromoterEditPage = () => {
   const { id } = useParams();
@@ -134,7 +133,9 @@ const PromoterEditPage = () => {
         </div>
         {error && <p className="error">{error}</p>}
         <div className="form-actions">
-          <button type="submit" className="btn-primary">Update Promoter</button>
+          <button type="submit" className="btn-primary">
+            Update Promoter
+          </button>
         </div>
       </form>
     </div>

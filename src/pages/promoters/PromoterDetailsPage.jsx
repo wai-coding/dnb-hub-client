@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import placeholderImg from "../../assets/placeholder.png";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const PromoterDetailsPage = () => {
   const { id } = useParams();
@@ -52,9 +51,15 @@ const PromoterDetailsPage = () => {
       <div className="details-card">
         <div className="details-card-media">
           <img
-            src={promoter.image && promoter.image.trim() !== "" ? promoter.image : placeholderImg}
+            src={
+              promoter.image && promoter.image.trim() !== ""
+                ? promoter.image
+                : placeholderImg
+            }
             alt={promoter.name || "Promoter"}
-            onError={(e) => { e.currentTarget.src = placeholderImg; }}
+            onError={(e) => {
+              e.currentTarget.src = placeholderImg;
+            }}
           />
         </div>
         <div className="details-card-content">
@@ -67,7 +72,9 @@ const PromoterDetailsPage = () => {
             {promoter.socialmedia && (
               <div className="details-card-row">
                 <span className="details-card-label">Social Media</span>
-                <span className="details-card-value">{promoter.socialmedia}</span>
+                <span className="details-card-value">
+                  {promoter.socialmedia}
+                </span>
               </div>
             )}
             {promoter.contacts && (
@@ -92,7 +99,9 @@ const PromoterDetailsPage = () => {
                 <Link to={`/promoters/${id}/edit`}>
                   <button className="btn-secondary">Edit</button>
                 </Link>
-                <button className="btn-danger" onClick={handleDelete}>Delete</button>
+                <button className="btn-danger" onClick={handleDelete}>
+                  Delete
+                </button>
               </>
             )}
           </div>

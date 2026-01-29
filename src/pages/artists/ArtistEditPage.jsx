@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../../config/config";
 
 const ArtistEditPage = () => {
   const { id } = useParams();
@@ -146,7 +145,9 @@ const ArtistEditPage = () => {
         </div>
         {error && <p className="error">{error}</p>}
         <div className="form-actions">
-          <button type="submit" className="btn-primary">Update Artist</button>
+          <button type="submit" className="btn-primary">
+            Update Artist
+          </button>
         </div>
       </form>
     </div>

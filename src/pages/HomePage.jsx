@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import placeholderImg from "../assets/placeholder.png";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../config/config";
 
 const HomePage = () => {
   const [latestEvents, setLatestEvents] = useState([]);
@@ -52,10 +51,16 @@ const HomePage = () => {
             {latestEvents.map((event) => (
               <div key={event._id} className="event-card">
                 <img
-                  src={event.image && event.image.trim() !== "" ? event.image : placeholderImg}
+                  src={
+                    event.image && event.image.trim() !== ""
+                      ? event.image
+                      : placeholderImg
+                  }
                   alt={event.eventname || "Event"}
                   className="event-card-image"
-                  onError={(e) => { e.currentTarget.src = placeholderImg; }}
+                  onError={(e) => {
+                    e.currentTarget.src = placeholderImg;
+                  }}
                 />
                 <h3>{event.eventname}</h3>
                 <p className="event-date">
