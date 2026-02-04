@@ -32,13 +32,13 @@ const PromotersListPage = () => {
     <div className="page">
       <div className="page-header">
         <h1>Promoters</h1>
-        {isLoggedIn && (
-          <div className="page-actions">
+        <div className="page-actions">
+          {isLoggedIn && (
             <Link to="/promoters/new">
-              <button className="btn-primary">Create Promoter</button>
+              <button className="btn-primary">Add Promoter</button>
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       {promotersList.length === 0 ? (
         <p>No promoters found</p>
@@ -71,6 +71,11 @@ const PromotersListPage = () => {
           ))}
         </div>
       )}
+      <div className="page-footer">
+        <Link to="/">
+          <button className="btn">Home</button>
+        </Link>
+      </div>
     </div>
   );
 };

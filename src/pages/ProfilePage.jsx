@@ -1,16 +1,16 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import placeholderImg from "../assets/placeholder.png";
+import defaultAvatar from "../assets/avatar.png";
 
 const ProfilePage = () => {
   const { currentUser } = useContext(AuthContext);
 
-  // Fallback to placeholder if no profile pic
+  // Fallback to default avatar if no profile pic
   const avatarSrc =
     currentUser?.profilePicture && currentUser.profilePicture.trim() !== ""
       ? currentUser.profilePicture
-      : placeholderImg;
+      : defaultAvatar;
 
   return (
     <div className="page profile-page">
@@ -26,13 +26,9 @@ const ProfilePage = () => {
                 className="profile-avatar"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = placeholderImg;
+                  e.target.src = defaultAvatar;
                 }}
               />
-              <h1 className="profile-name">{currentUser.username || "User"}</h1>
-              {currentUser.email && (
-                <p className="profile-email">{currentUser.email}</p>
-              )}
             </div>
 
             <div className="profile-info">

@@ -10,8 +10,23 @@ const PromoterDetailsPage = () => {
   const [promoter, setPromoter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isImageOpen, setIsImageOpen] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
   const nav = useNavigate();
+
+  // Close modal on Escape key and prevent background scroll
+  useEffect(() => {
+    if (!isImageOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setIsImageOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isImageOpen]);
 
   useEffect(() => {
     axios
@@ -46,22 +61,40 @@ const PromoterDetailsPage = () => {
   if (error) return <p className="error">{error}</p>;
   if (!promoter) return <p>Promoter not found</p>;
 
+  const imageSrc =
+    promoter.image && promoter.image.trim() !== ""
+      ? promoter.image
+      : placeholderImg;
+
   return (
     <div className="page">
       <div className="details-card">
-        <div className="details-card-media">
-          <img
-            src={
-              promoter.image && promoter.image.trim() !== ""
-                ? promoter.image
-                : placeholderImg
-            }
-            alt={promoter.name || "Promoter"}
-            onError={(e) => {
-              e.currentTarget.src = placeholderImg;
-            }}
-          />
-        </div>
+        <img
+          src={imageSrc}
+          alt={promoter.name || "Promoter"}
+          className="details-image details-image-small"
+          onClick={() => setIsImageOpen(true)}
+          onError={(e) => {
+            e.currentTarget.src = placeholderImg;
+          }}
+        />
+
+        {isImageOpen && (
+          <div className="image-modal" onClick={() => setIsImageOpen(false)}>
+            <button
+              className="image-modal-close"
+              onClick={() => setIsImageOpen(false)}
+            >
+              ×
+            </button>
+            <img
+              src={imageSrc}
+              alt={promoter.name || "Promoter"}
+              className="image-modal-content"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
         <div className="details-card-content">
           <h1 className="details-card-title">{promoter.name}</h1>
           <div className="details-card-info">
@@ -73,26 +106,39 @@ const PromoterDetailsPage = () => {
               <div className="details-card-row">
                 <span className="details-card-label">Social Media</span>
                 <span className="details-card-value">
-                  {promoter.socialmedia}
+                  <a href={promoter.socialmedia} target="_blank" rel="noreferrer">
+                    {promoter.socialmedia}
+                  </a>
                 </span>
               </div>
             )}
             {promoter.contacts && (
               <div className="details-card-row">
                 <span className="details-card-label">Contacts</span>
-                <span className="details-card-value">{promoter.contacts}</span>
+                <span className="details-card-value">
+                  <a href={`mailto:${promoter.contacts}`} target="_blank" rel="noreferrer">
+                    {promoter.contacts}
+                  </a>
+                </span>
               </div>
             )}
             {promoter.tickets && (
               <div className="details-card-row">
                 <span className="details-card-label">Tickets</span>
-                <span className="details-card-value">{promoter.tickets}</span>
+                <span className="details-card-value">
+                  <a href={promoter.tickets} target="_blank" rel="noreferrer">
+                    {promoter.tickets}
+                  </a>
+                </span>
               </div>
             )}
           </div>
           <div className="details-card-actions">
             <Link to="/promoters">
-              <button>Back to Promoters</button>
+              <button>Back</button>
+            </Link>
+            <Link to="/">
+              <button>Home</button>
             </Link>
             {isLoggedIn && (
               <>

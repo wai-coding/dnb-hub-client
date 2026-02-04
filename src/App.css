@@ -53,6 +53,7 @@ a {
 }
 a:hover {
   opacity: 0.8;
+  text-decoration: underline;
 }
 img {
   max-width: 100%;
@@ -181,11 +182,15 @@ input:disabled {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
-.navbar-left,
-.navbar-logo-link {
+.navbar-left {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1;
+}
+.navbar-logo-link {
+  display: flex;
+  align-items: center;
 }
 .navbar-logo {
   width: 32px;
@@ -198,6 +203,12 @@ input:disabled {
   color: var(--accent);
   margin: 0;
 }
+.navbar-title-link {
+  text-decoration: none;
+}
+.navbar-title-link:hover {
+  opacity: 0.8;
+}
 
 .navbar-links,
 .navbar-auth {
@@ -205,9 +216,13 @@ input:disabled {
   align-items: center;
   gap: 0.25rem;
 }
+.navbar-links {
+  justify-content: center;
+}
 .navbar-auth {
+  flex: 1;
+  justify-content: flex-end;
   gap: 0.5rem;
-  margin-left: auto;
 }
 .navbar-links a,
 .navbar-auth a {
@@ -229,6 +244,23 @@ input:disabled {
 .navbar-auth a:last-child {
   background: var(--accent);
   color: white;
+}
+
+.navbar-avatar-link {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+.navbar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  transition: border-color 0.2s;
+}
+.navbar-avatar:hover {
+  border-color: var(--accent);
 }
 
 /* Layout */
@@ -269,22 +301,23 @@ input:disabled {
 }
 .page-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 /* Grid */
 .grid,
-.events-grid,
-.explore-grid {
-  display: flex;
-  flex-wrap: wrap;
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
-.grid > *,
-.events-grid > *,
-.explore-grid > * {
-  flex: 1 1 100%;
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 /* Card (shared base) */
@@ -296,7 +329,17 @@ input:disabled {
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
+/* Fixed card dimensions for consistent sizing */
+.card,
+.event-card {
+  min-height: 280px;
+}
+
 .card:hover,
 .details-card:hover,
 .event-card:hover,
@@ -321,6 +364,17 @@ input:disabled {
 
 .card-body {
   padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-body-left {
+  text-align: left;
+}
+.card-body-left .card-title,
+.card-body-left .card-meta,
+.card-body-left .card-actions {
+  text-align: left;
 }
 .card-title {
   font-size: 1.1rem;
@@ -331,11 +385,17 @@ input:disabled {
   color: var(--muted);
   margin-bottom: 0.25rem;
 }
+.card-meta.event-date {
+  font-weight: 600;
+  color: var(--accent);
+  padding: 0;
+}
 .card-actions,
 .details-card-actions {
   display: flex;
   gap: 0.5rem;
-  margin-top: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
 }
 
 .details-card-content {
@@ -347,6 +407,7 @@ input:disabled {
 .details-card-title {
   font-size: 1.5rem;
   margin: 0;
+  text-align: center;
 }
 .details-card-info,
 .profile-info {
@@ -364,17 +425,78 @@ input:disabled {
 .profile-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--muted);
   text-transform: uppercase;
 }
 .details-card-value,
 .profile-value {
   color: var(--text);
 }
+.details-card-value a,
+.details-link {
+  color: var(--accent);
+}
+.details-card-value a:hover,
+.details-link:hover {
+  text-decoration: underline;
+}
 .details-card-actions {
   flex-wrap: wrap;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
+}
+
+/* Detail page image styling */
+.details-image {
+  display: block;
+  margin: 0 auto;
+  max-width: 480px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.details-image-small {
+  max-width: 250px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.details-image-small:hover {
+  opacity: 0.85;
+}
+
+/* Image Modal / Lightbox */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.image-modal-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 8px;
+  object-fit: contain;
+}
+.image-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+.image-modal-close:hover {
+  opacity: 0.7;
 }
 
 /* Form Cards */
@@ -569,6 +691,13 @@ input:disabled {
   border-radius: 10px;
   background: var(--surface);
 }
+.hero-logo {
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 1rem;
+  display: block;
+}
 .hero h1 {
   font-size: 2rem;
   font-weight: 700;
@@ -608,12 +737,6 @@ input:disabled {
   padding: 0.75rem 1rem 0.25rem;
   font-size: 1.1rem;
 }
-.event-date {
-  padding: 0 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--accent);
-}
 .event-location {
   padding: 0.25rem 1rem;
   font-size: 0.875rem;
@@ -647,6 +770,25 @@ input:disabled {
   margin: 0;
 }
 
+/* Text center utility */
+.text-center {
+  text-align: center;
+}
+.text-center h2,
+.text-center h3,
+.text-center p {
+  text-align: center;
+}
+
+/* Page footer with Home button */
+.page-footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
 /* CTA Section */
 .cta-section {
   text-align: center;
@@ -670,6 +812,12 @@ input:disabled {
 }
 .cta-links {
   align-items: stretch;
+}
+.cta-links-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Not Found Page */
@@ -721,7 +869,7 @@ input:disabled {
   font-family: monospace;
 }
 
-/* Responsive (768px+) */
+/* Responsive - Tablet (768px+) */
 @media (min-width: 768px) {
   h1 {
     font-size: 2rem;
@@ -746,13 +894,16 @@ input:disabled {
   .edit-profile-actions {
     flex-direction: row;
   }
-  .grid > * {
-    flex: 1 1 calc(50% - 0.5rem);
+
+  /* Grid: 2 cards per row on tablet */
+  .grid,
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .events-grid > *,
-  .explore-grid > * {
-    flex: 1 1 calc(33.333% - 0.75rem);
+  .explore-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
+
   .details-card {
     display: flex;
   }
@@ -787,5 +938,14 @@ input:disabled {
   .form-card,
   .auth-card {
     padding: 2rem;
+  }
+}
+
+/* Responsive - Desktop (1024px+) */
+@media (min-width: 1024px) {
+  /* Grid: 4 cards per row on desktop */
+  .grid,
+  .events-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

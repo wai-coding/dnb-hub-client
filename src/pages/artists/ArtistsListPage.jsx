@@ -32,13 +32,13 @@ const ArtistsListPage = () => {
     <div className="page">
       <div className="page-header">
         <h1>Artists</h1>
-        {isLoggedIn && (
-          <div className="page-actions">
+        <div className="page-actions">
+          {isLoggedIn && (
             <Link to="/artists/new">
-              <button className="btn-primary">Create Artist</button>
+              <button className="btn-primary">Add Artist</button>
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       {artistsList.length === 0 ? (
         <p>No artists found</p>
@@ -59,8 +59,15 @@ const ArtistsListPage = () => {
                   }}
                 />
               </div>
-              <div className="card-body">
+              <div className="card-body card-body-left">
                 <h3 className="card-title">{artist.name}</h3>
+                {artist.socialmedia && (
+                  <p className="card-meta">
+                    <a href={artist.socialmedia} target="_blank" rel="noopener noreferrer">
+                      {artist.socialmedia}
+                    </a>
+                  </p>
+                )}
                 <div className="card-actions">
                   <Link to={`/artists/${artist._id}`}>
                     <button>View Details</button>
@@ -71,6 +78,11 @@ const ArtistsListPage = () => {
           ))}
         </div>
       )}
+      <div className="page-footer">
+        <Link to="/">
+          <button className="btn">Home</button>
+        </Link>
+      </div>
     </div>
   );
 };

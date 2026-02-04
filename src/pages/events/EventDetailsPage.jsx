@@ -10,8 +10,23 @@ const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isImageOpen, setIsImageOpen] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
   const nav = useNavigate();
+
+  // Close modal on Escape key and prevent background scroll
+  useEffect(() => {
+    if (!isImageOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setIsImageOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isImageOpen]);
 
   useEffect(() => {
     axios
@@ -46,22 +61,38 @@ const EventDetailsPage = () => {
   if (error) return <p className="error">{error}</p>;
   if (!event) return <p>Event not found</p>;
 
+  const imageSrc =
+    event.image && event.image.trim() !== "" ? event.image : placeholderImg;
+
   return (
     <div className="page">
       <div className="details-card">
-        <div className="details-card-media">
-          <img
-            src={
-              event.image && event.image.trim() !== ""
-                ? event.image
-                : placeholderImg
-            }
-            alt={event.eventname || "Event"}
-            onError={(e) => {
-              e.currentTarget.src = placeholderImg;
-            }}
-          />
-        </div>
+        <img
+          src={imageSrc}
+          alt={event.eventname || "Event"}
+          className="details-image details-image-small"
+          onClick={() => setIsImageOpen(true)}
+          onError={(e) => {
+            e.currentTarget.src = placeholderImg;
+          }}
+        />
+
+        {isImageOpen && (
+          <div className="image-modal" onClick={() => setIsImageOpen(false)}>
+            <button
+              className="image-modal-close"
+              onClick={() => setIsImageOpen(false)}
+            >
+              ×
+            </button>
+            <img
+              src={imageSrc}
+              alt={event.eventname || "Event"}
+              className="image-modal-content"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
         <div className="details-card-content">
           <h1 className="details-card-title">{event.eventname}</h1>
           <div className="details-card-info">
@@ -100,19 +131,30 @@ const EventDetailsPage = () => {
             {event.socialmedia && (
               <div className="details-card-row">
                 <span className="details-card-label">Social Media</span>
-                <span className="details-card-value">{event.socialmedia}</span>
+                <span className="details-card-value">
+                  <a href={event.socialmedia} target="_blank" rel="noreferrer">
+                    {event.socialmedia}
+                  </a>
+                </span>
               </div>
             )}
             {event.contacts && (
               <div className="details-card-row">
                 <span className="details-card-label">Contacts</span>
-                <span className="details-card-value">{event.contacts}</span>
+                <span className="details-card-value">
+                  <a href={`mailto:${event.contacts}`} target="_blank" rel="noreferrer">
+                    {event.contacts}
+                  </a>
+                </span>
               </div>
             )}
           </div>
           <div className="details-card-actions">
             <Link to="/events">
-              <button>Back to Events</button>
+              <button>Back</button>
+            </Link>
+            <Link to="/">
+              <button>Home</button>
             </Link>
             {isLoggedIn && (
               <>

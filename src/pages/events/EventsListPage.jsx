@@ -32,13 +32,13 @@ const EventsListPage = () => {
     <div className="page">
       <div className="page-header">
         <h1>Events</h1>
-        {isLoggedIn && (
-          <div className="page-actions">
+        <div className="page-actions">
+          {isLoggedIn && (
             <Link to="/events/new">
-              <button className="btn-primary">Create Event</button>
+              <button className="btn-primary">Add Event</button>
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       {eventsList.length === 0 ? (
         <p>No events found</p>
@@ -59,9 +59,16 @@ const EventsListPage = () => {
                   }}
                 />
               </div>
-              <div className="card-body">
+              <div className="card-body card-body-left">
                 <h3 className="card-title">{event.eventname}</h3>
+                <p className="card-meta event-date">
+                  {new Date(event.date).toLocaleDateString()}
+                </p>
                 <p className="card-meta">{event.location}</p>
+                <p className="card-meta">
+                  {event.promoter ? event.promoter.name : "No promoter"}
+                </p>
+                <p className="card-meta">{event.price}</p>
                 <div className="card-actions">
                   <Link to={`/events/${event._id}`}>
                     <button>View Details</button>
@@ -72,6 +79,11 @@ const EventsListPage = () => {
           ))}
         </div>
       )}
+      <div className="page-footer">
+        <Link to="/">
+          <button className="btn">Home</button>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
-import placeholderImg from "../assets/placeholder.png";
+import defaultAvatar from "../assets/avatar.png";
 import { API_URL } from "../config/config";
 
 const EditProfilePage = () => {
@@ -10,7 +10,6 @@ const EditProfilePage = () => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,7 +18,6 @@ const EditProfilePage = () => {
   useEffect(() => {
     if (currentUser) {
       setUsername(currentUser.username || "");
-      setEmail(currentUser.email || "");
       setProfilePicture(currentUser.profilePicture || "");
     }
   }, [currentUser]);
@@ -57,11 +55,8 @@ const EditProfilePage = () => {
     }
   };
 
-  // Preview falls back to placeholder
-  const previewSrc =
-    profilePicture && profilePicture.trim() !== ""
-      ? profilePicture
-      : placeholderImg;
+  // Preview falls back to avatar
+  const previewSrc = profilePicture || defaultAvatar;
 
   if (!currentUser) {
     return (
@@ -85,10 +80,10 @@ const EditProfilePage = () => {
           <img
             src={previewSrc}
             alt="Profile preview"
-            className="edit-profile-avatar"
+            className="profile-avatar"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = placeholderImg;
+              e.target.src = defaultAvatar;
             }}
           />
         </div>
@@ -103,18 +98,6 @@ const EditProfilePage = () => {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
             />
-          </div>
-
-          <div className="form-row">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              disabled
-              className="input-disabled"
-            />
-            <span className="form-hint">Email cannot be changed</span>
           </div>
 
           <div className="form-row">

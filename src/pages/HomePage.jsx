@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import placeholderImg from "../assets/placeholder.png";
+import logo from "../assets/logo.png";
 import { API_URL } from "../config/config";
 
 const HomePage = () => {
@@ -26,7 +27,7 @@ const HomePage = () => {
   return (
     <div className="homepage">
       <section className="hero">
-        <h1>DNB Hub</h1>
+        <img src={logo} alt="DNB Hub" className="hero-logo" />
         <p className="hero-subtitle">
           Your ultimate destination for Drum & Bass events, artists, and
           promoters. Discover upcoming raves, connect with your favorite DJs,
@@ -40,52 +41,58 @@ const HomePage = () => {
       <section className="latest-events">
         <h2>Latest Events</h2>
         <p className="section-description">
-          Fresh from the database - real data, real events.
+          Fresh events straight from the scene.
         </p>
         {loading ? (
           <p>Loading events...</p>
         ) : latestEvents.length === 0 ? (
           <p>No events yet. Be the first to create one!</p>
         ) : (
-          <div className="events-grid">
+          <div className="grid">
             {latestEvents.map((event) => (
-              <div key={event._id} className="event-card">
-                <img
-                  src={
-                    event.image && event.image.trim() !== ""
-                      ? event.image
-                      : placeholderImg
-                  }
-                  alt={event.eventname || "Event"}
-                  className="event-card-image"
-                  onError={(e) => {
-                    e.currentTarget.src = placeholderImg;
-                  }}
-                />
-                <h3>{event.eventname}</h3>
-                <p className="event-date">
-                  {new Date(event.date).toLocaleDateString()}
-                </p>
-                <p className="event-location">{event.location}</p>
-                <p className="event-promoter">
-                  {event.promoter ? event.promoter.name : "No promoter"}
-                </p>
-                <Link to={`/events/${event._id}`}>
-                  <button>View Details</button>
-                </Link>
+              <div key={event._id} className="card">
+                <div className="card-media">
+                  <img
+                    src={
+                      event.image && event.image.trim() !== ""
+                        ? event.image
+                        : placeholderImg
+                    }
+                    alt={event.eventname || "Event"}
+                    onError={(e) => {
+                      e.currentTarget.src = placeholderImg;
+                    }}
+                  />
+                </div>
+                <div className="card-body card-body-left">
+                  <h3 className="card-title">{event.eventname}</h3>
+                  <p className="card-meta event-date">
+                    {new Date(event.date).toLocaleDateString()}
+                  </p>
+                  <p className="card-meta">{event.location}</p>
+                  <p className="card-meta">
+                    {event.promoter ? event.promoter.name : "No promoter"}
+                  </p>
+                  <p className="card-meta">{event.price}</p>
+                  <div className="card-actions">
+                    <Link to={`/events/${event._id}`}>
+                      <button>View Details</button>
+                    </Link>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         )}
       </section>
 
-      <section className="explore-section">
+      <section className="explore-section text-center">
         <h2>Explore the Hub</h2>
         <p className="section-description">Connecting the DNB community.</p>
         <div className="explore-grid">
           <Link to="/events" className="explore-card">
             <h3>Events</h3>
-            <p>Browse upcoming Drum & Bass events and raves.</p>
+            <p>Browse upcoming Drum & Bass events.</p>
           </Link>
           <Link to="/artists" className="explore-card">
             <h3>Artists</h3>
@@ -103,9 +110,17 @@ const HomePage = () => {
           <div>
             <h2>Ready to contribute?</h2>
             <p>Add new events, artists, or promoters to the database.</p>
-            <Link to="/events/new">
-              <button className="cta-button">Create Event</button>
-            </Link>
+            <div className="cta-links cta-links-row">
+              <Link to="/events/new">
+                <button className="cta-button">Add Event</button>
+              </Link>
+              <Link to="/artists/new">
+                <button className="cta-button">Add Artist</button>
+              </Link>
+              <Link to="/promoters/new">
+                <button className="cta-button">Add Promoter</button>
+              </Link>
+            </div>
           </div>
         ) : (
           <div>
